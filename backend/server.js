@@ -1,16 +1,17 @@
-// server.js
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 
 const authRoutes = require('./routes/authRoutes');
 const transactionRoutes = require('./routes/transactionRoutes');
+const paymentRoutes = require('./routes/paymentRoutes');
 
 const app = express();
 
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use('/api/payment', paymentRoutes);
 
 // Routes
 app.use('/api/auth', authRoutes);
