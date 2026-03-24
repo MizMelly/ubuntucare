@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'registerscreen.dart';
 import 'forgotpasswordscreen.dart';
 import 'services/auth_service.dart';
-import '../main.dart'; 
+import '../main.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -12,9 +12,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final emailController = TextEditingController();
+  final emailController = TextEditingController(); // updated
   final passwordController = TextEditingController();
-
   bool isLoading = false;
 
   @override
@@ -29,26 +28,25 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               const SizedBox(height: 40),
-
               const Text(
                 "Welcome Back 👋",
                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               ),
-
               const SizedBox(height: 30),
 
+              // Email input
               TextField(
                 controller: emailController,
+                keyboardType: TextInputType.emailAddress,
                 decoration: const InputDecoration(
                   labelText: "Email",
                   border: OutlineInputBorder(),
                 ),
               ),
-
               const SizedBox(height: 15),
 
+              // Password input
               TextField(
                 controller: passwordController,
                 obscureText: true,
@@ -57,7 +55,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   border: OutlineInputBorder(),
                 ),
               ),
-
               const SizedBox(height: 10),
 
               Align(
@@ -74,10 +71,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: const Text("Forgot Password?"),
                 ),
               ),
-
               const SizedBox(height: 20),
 
-              // 🔥 LOGIN BUTTON
+              // LOGIN BUTTON
               GestureDetector(
                 onTap: isLoading
                     ? null
@@ -85,14 +81,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         setState(() => isLoading = true);
 
                         final result = await AuthService.login(
-                          email: emailController.text.trim(),
+                          email: emailController.text.trim(), // updated
                           password: passwordController.text.trim(),
                         );
 
                         setState(() => isLoading = false);
 
-                        if (result["token"] != null) {
-                          // ✅ GO TO MAIN APP (NOT HomeScreen)
+                        if (result["success"] == true) {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
@@ -101,11 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           );
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                result["error"] ?? "Login failed",
-                              ),
-                            ),
+                            SnackBar(content: Text(result["message"] ?? "Login failed")),
                           );
                         }
                       },
@@ -113,16 +104,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   width: double.infinity,
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [primary, secondary],
-                    ),
+                    gradient: const LinearGradient(colors: [primary, secondary]),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Center(
                     child: isLoading
-                        ? const CircularProgressIndicator(
-                            color: Colors.white,
-                          )
+                        ? const CircularProgressIndicator(color: Colors.white)
                         : const Text(
                             "Login",
                             style: TextStyle(color: Colors.white),
@@ -130,7 +117,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-
               const Spacer(),
 
               Row(
@@ -141,17 +127,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                          builder: (_) => const RegisterScreen(),
-                        ),
+                        MaterialPageRoute(builder: (_) => const RegisterScreen()),
                       );
                     },
                     child: const Text(
                       "Create Account",
-                      style: TextStyle(
-                        color: secondary,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: TextStyle(color: secondary, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ],
