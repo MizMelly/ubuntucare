@@ -4,7 +4,7 @@ import 'screens/save_screen.dart';
 import 'screens/coverage_screen.dart';
 import 'screens/health_screen.dart';
 import 'screens/more_screen.dart';
-
+import 'screens/login_screen.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const MainScreen(),
+      home: const LoginScreen(),
     );
   }
 }
